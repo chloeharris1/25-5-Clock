@@ -4,7 +4,7 @@ class Controls extends React.Component {
     render(){
         return (
             <div className="length-control">
-                <div id={this.props.titleID}>{this.props.title}</div>
+                <div id={this.props.titleID} className="title">{this.props.title}</div>
                 <button
                 className="btn-row"
                 id={this.props.decID}

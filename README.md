@@ -9,6 +9,8 @@ A FreeCodeCamp Front End Development Libraries project, with the objective to fu
 ## Built With 
 ![image](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
+![image](https://img.shields.io/badge/Font_Awesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white)
+
 ## Snapshot
 
 

@@ -13,7 +13,7 @@ class Timer extends React.Component {
     }
     render(){
         return (
-            <div>
+            <div className="container">
                 {/* Length Controls */}
                 <Controls
                 decID="break-decrement"
@@ -29,24 +29,30 @@ class Timer extends React.Component {
                 length={this.state.sessLength}
                 lengthID="session-length"
                 incID="session-increment"
-                title="Session-Length"
+                title="Session Length"
                 titleID="session-label"
                 // Add onClick to set session length
                 />
                 {/* Countdown Clock */}
-                <div id="timer-label">Session -or- Break</div>
-                <div id="time-left">25:00</div>
-                <button id="start_stop"
-                // Add onClick that starts and stops timer
-                >
-                    <i class="fa-solid fa-play"></i>
-                    <i class="fa-solid fa-pause"></i>
-                </button>
-                <button id="reset"
-                // Add onClick to reset timer
-                >
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                </button>
+                <div className="timer">
+                    <div className="timer-wrapper">
+                        <div id="timer-label">Session</div>
+                        <div id="time-left">25:00</div>
+                    </div>
+                </div>
+                <div className="timer-control">
+                    <button id="start_stop"
+                    // Add onClick that starts and stops timer
+                    >
+                        <i className="fa-solid fa-play"></i>
+                        <i className="fa-solid fa-pause"></i>
+                    </button>
+                    <button id="reset"
+                    // Add onClick to reset timer
+                    >
+                    <i className="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                </div>
             </div>
         );
     }

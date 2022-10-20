@@ -1,0 +1,71 @@
+// Font Awesome
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css');
+// Google Font
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap');
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    .container {
+        height: 100vh;
+        padding-top: 50%;
+    }
+}
+
+.length-control {
+    width: 250px;
+    .title {
+        font-weight: 500;
+    }
+}
+
+.btn-row,
+.length-control {
+    display: inline-block;
+    .btn-row:nth-child(3) {
+        width: 40px;
+    }
+}
+
+.timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18rem;
+    height: 18rem;
+    border: 7px solid black;
+    border-radius: 50%;
+    margin: 20px auto 10px auto;
+    .timer-wrapper {
+        margin-top: -5px;
+        #timer-label {
+            font-weight: 500;
+        }
+        #time-left {
+            font-size: 80px;
+            font-weight: 300;
+        }
+    }
+}
+
+button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 2rem;
+    i {
+        margin: 5px;
+    }
+    .fa-pause {
+        margin-left: 15px;
+    }
+}
