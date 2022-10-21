@@ -81,6 +81,10 @@ User Story #28: The audio element with id of beep must stop playing and be rewou
 Favicon: 
 [CreativeCons](https://www.flaticon.com/free-icons/alarm)
 
+Sound Effect:
+[mixkit](https://mixkit.co/free-sound-effects/clock/)
+
+
 ## License
 Licensed under the MIT license.
 

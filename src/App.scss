@@ -24,6 +24,7 @@ body {
     width: 250px;
     .title {
         font-weight: 500;
+        font-size: 1.5rem;
     }
 }
 
@@ -44,15 +45,12 @@ body {
     border: 7px solid black;
     border-radius: 50%;
     margin: 20px auto 10px auto;
-    .timer-wrapper {
-        margin-top: -5px;
-        #timer-label {
-            font-weight: 500;
-        }
-        #time-left {
-            font-size: 80px;
-            font-weight: 300;
-        }
+    #timer-label {
+        font-weight: 500;
+    }
+    #time-left {
+        font-size: 80px;
+        font-weight: 500;
     }
 }
 
