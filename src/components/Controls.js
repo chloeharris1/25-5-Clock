@@ -8,7 +8,7 @@ class Controls extends React.Component {
                 <button
                 className="btn-row"
                 id={this.props.decID}
-                // Add onClick prop
+                onClick={this.props.onClick}
                 value='-'>
                     <i class="fa-solid fa-angle-down"></i>
                 </button>
@@ -18,7 +18,7 @@ class Controls extends React.Component {
                 <button 
                 className="btn-row"
                 id={this.props.incID}
-                // Add onClick prop
+                onClick={this.props.onClick}
                 value="+">
                     <i class="fa-solid fa-angle-up"></i>
                 </button> 

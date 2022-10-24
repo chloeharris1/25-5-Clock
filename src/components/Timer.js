@@ -10,12 +10,15 @@ class Timer extends React.Component {
             sessLength: 25,
             timer: 1500,
             intervalID:'',
-            timerState: 'stopped',
+            timerState: 'inactive',
             timerType: 'Session'
 
         }
         this.startTimer = this.startTimer.bind(this);
         this.decrementTimer = this.decrementTimer.bind(this);
+        this.setBreakLength = this.setBreakLength.bind(this);
+        this.setSessLength = this.setSessLength.bind(this);
+        this.lengthControl = this.lengthControl.bind(this);
         this.resetTimer = this.resetTimer.bind(this);
     }
 
@@ -36,17 +39,65 @@ class Timer extends React.Component {
     }
     
     // Set break length
+    setBreakLength(e){
+        this.lengthControl(
+            'breakLength',
+            e.currentTarget.value,
+            this.state.breakLength,
+            'Session'
+        );
+    }
 
     // Set session length
+    setSessLength(e){
+        this.lengthControl(
+            'sessLength',
+            e.currentTarget.value,
+            this.state.sessLength,
+            'Break'
+        );
+    }
 
-    // Increase or decrese break and session lengths
-
-    // Timer state control - stopped, active 
-
-
-
+    // Increase or decrease break and session lengths
+    lengthControl(stateUpdate, operator, currentlength, timerType) {
+        if(this.state.timerState === 'active') {
+            return;
+        }
+        if(this.state.timerType === timerType) {
+            // Decrement timer if current length is more than 1 minute
+            if(operator === '-' && currentlength !==1) {
+                this.setState({
+                    [stateUpdate]: currentlength - 1
+                });
+            // Increment timer if current length is under 60 minutes
+            } else if (operator === '+' && currentlength !==60) {
+                this.setState({
+                    [stateUpdate]: currentlength + 1
+                });
+            }
+            // Update timer state to reflect new length
+        } else if(operator === '-' && currentlength !== 1) {
+            this.setState({
+                [stateUpdate]: currentlength -1,
+                timer: currentlength * 60 - 60
+            });
+        } else if(operator === '+' && currentlength !==60){
+            this.setState({
+                [stateUpdate]: currentlength + 1,
+                timer: currentlength * 60 + 60
+            });
+        }
+    }
     
-    // Play audio
+    // Timer state control - stopped, active 
+    timerControl(){
+
+    }
+
+    // Play audio when timer ends
+    playAudio(){
+        
+    }
     
     // Display time in mm:ss format 
     displayTime(){
@@ -56,7 +107,7 @@ class Timer extends React.Component {
         // If there's under 10 seconds or minutes left, add '0' to keep time format mm:ss
         seconds = seconds < 10 ? '0' + seconds : seconds;
         minutes = minutes < 10 ? '0' + minutes : minutes;
-        // Add colon in between minutes and seconds
+        // Display colon in between minutes and seconds
         return minutes + ':' + seconds; 
     }
     // Reset timer
@@ -66,9 +117,10 @@ class Timer extends React.Component {
             sessLength: 25,
             timer: 1500,
             intervalID: '',
-            timerState: 'stopped',
+            timerState: 'inactive',
             timerType: 'Session'
         });
+        clearInterval(this.state.intervalID);
     }
     render(){
         return (
@@ -81,7 +133,7 @@ class Timer extends React.Component {
                 incID="break-increment"
                 title="Break Length"
                 titleID="break-label"
-                // Add onClick to set break length
+                onClick={this.setBreakLength}
                 />
                 <Controls 
                 decID="session-decrement"
@@ -90,18 +142,18 @@ class Timer extends React.Component {
                 incID="session-increment"
                 title="Session Length"
                 titleID="session-label"
-                // Add onClick to set session length
+                onClick={this.setSessLength}
                 />
                 {/* Countdown Clock */}
                 <div className="timer">
                     <div className="timer-wrapper">
-                        <div id="timer-label">Session</div>
+                        <div id="timer-label">{this.state.timerType}</div>
                         <div id="time-left">{this.displayTime()}</div>
                         <button id="reset"
                         onClick={this.resetTimer}
                         >
-                    <i class="fa-solid fa-arrow-rotate-right"></i>
-                    </button>
+                            <i class="fa-solid fa-arrow-rotate-right"></i>
+                        </button>
                     </div>
                 </div>
                 <div className="timer-control">
