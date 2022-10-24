@@ -91,12 +91,20 @@ class Timer extends React.Component {
     
     // Timer state control - stopped, active 
     timerControl(){
-
+        if(this.state.timerState === 'stopped'){
+            this.startTimer();
+            this.setState({ timerState: 'active'});
+        } else {
+            this.setState({timerState: 'stopped'});
+            if(this.state.intervalID) {
+                clearInterval(this.state.intervalID);
+            }
+        }
     }
 
     // Play audio when timer ends
     playAudio(){
-        
+
     }
     
     // Display time in mm:ss format 
