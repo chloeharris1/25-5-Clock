@@ -10,7 +10,7 @@ class Controls extends React.Component {
                 id={this.props.decID}
                 onClick={this.props.onClick}
                 value='-'>
-                    <i class="fa-solid fa-angle-down"></i>
+                    <i className="fa-solid fa-angle-down"></i>
                 </button>
                 {/* Displays current length of timer */}
                 <div className="btn-row"
@@ -20,7 +20,7 @@ class Controls extends React.Component {
                 id={this.props.incID}
                 onClick={this.props.onClick}
                 value="+">
-                    <i class="fa-solid fa-angle-up"></i>
+                    <i className="fa-solid fa-angle-up"></i>
                 </button> 
             </div>
         );

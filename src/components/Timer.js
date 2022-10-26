@@ -2,6 +2,29 @@ import React from "react";
 
 import Controls from "./Controls";
 
+// Created a function to account for timer drifting for a more accurate timer
+const accurateInterval = function (func, time) {
+    let stop, expected, timeout, callback; 
+
+    expected = Date.now() + time;
+    timeout = null; 
+    callback = function () {
+        expected += time; 
+        timeout = setTimeout(callback, expected - Date.now());
+        console.log(expected - Date.now())
+        return func();
+    };
+    stop = function () {
+        return clearTimeout(timeout);
+    };
+
+    timeout = setTimeout(callback, expected - Date.now());
+    return {
+        stop: stop
+    };
+};
+
+
 class Timer extends React.Component {
     constructor(props){
         super(props);
@@ -14,30 +37,19 @@ class Timer extends React.Component {
             timerType: 'Session'
 
         }
-        this.startTimer = this.startTimer.bind(this);
-        this.decrementTimer = this.decrementTimer.bind(this);
         this.setBreakLength = this.setBreakLength.bind(this);
         this.setSessLength = this.setSessLength.bind(this);
         this.lengthControl = this.lengthControl.bind(this);
+        this.timerControl = this.timerControl.bind(this);
+        this.startTimer = this.startTimer.bind(this);
+        this.decrementTimer = this.decrementTimer.bind(this);
+        this.typeControl = this.typeControl.bind(this);
+        this.playAudio = this.playAudio.bind(this);
+        this.switchType = this.switchType.bind(this);
+        this.displayTime = this.displayTime.bind(this);
         this.resetTimer = this.resetTimer.bind(this);
     }
 
-    // Begin timer countdown 
-    startTimer(){
-        this.setState({
-            intervalID: setInterval(() => {
-            this.decrementTimer()    
-            }, 1000)
-        });
-    }
-    
-    // Decrement timer
-    decrementTimer() {
-        this.setState({
-            timer: this.state.timer - 1
-        });
-    }
-    
     // Set break length
     setBreakLength(e){
         this.lengthControl(
@@ -58,6 +70,7 @@ class Timer extends React.Component {
         );
     }
 
+    
     // Increase or decrease break and session lengths
     lengthControl(stateUpdate, operator, currentlength, timerType) {
         if(this.state.timerState === 'active') {
@@ -69,7 +82,7 @@ class Timer extends React.Component {
                 this.setState({
                     [stateUpdate]: currentlength - 1
                 });
-            // Increment timer if current length is under 60 minutes
+                // Increment timer if current length is under 60 minutes
             } else if (operator === '+' && currentlength !==60) {
                 this.setState({
                     [stateUpdate]: currentlength + 1
@@ -97,19 +110,64 @@ class Timer extends React.Component {
         } else {
             this.setState({timerState: 'stopped'});
             if(this.state.intervalID) {
-                clearInterval(this.state.intervalID);
+                this.state.intervalID.stop();
+            }
+        }
+    }
+    
+    // Start timer countdown 
+    startTimer(){
+        this.setState({
+            intervalID: accurateInterval(() => {
+            this.decrementTimer();
+            this.typeControl();   
+            }, 1000)
+        });
+    }
+    
+    // Decrement timer
+    decrementTimer() {
+        this.setState({
+            timer: this.state.timer - 1
+        });
+    }
+
+    // Switch between sessions and breaks
+    typeControl(){
+        let timer = this.state.timer;
+        this.playAudio(timer);
+        if(timer < 0){
+            if(this.state.intervalID){
+                this.state.intervalID.stop();
+            }
+            if(this.state.timerType === 'Session') {
+                this.startTimer();
+                this.switchType(this.state.breakLength * 60, 'Break');
+            } else {
+                this.startTimer();
+                this.switchType(this.state.sessLength * 60, 'Session');
             }
         }
     }
 
     // Play audio when timer ends
-    playAudio(){
-
+    playAudio(_timer){
+        if(_timer === 0){
+            this.audioBeep.play();
+        }
     }
-    
+
+    // Change text above timer when switching bewtween a session and break
+    switchType(num, str){
+        this.setState({
+            timer: num,
+            timerType: str
+        });
+    }
+
     // Display time in mm:ss format 
     displayTime(){
-        if(this.state.timer === '0') return "00:00";
+        if(this.state.timer < '0') return "00:00";
         let minutes = Math.floor(this.state.timer / 60);
         let seconds = this.state.timer - minutes * 60;
         // If there's under 10 seconds or minutes left, add '0' to keep time format mm:ss
@@ -118,7 +176,7 @@ class Timer extends React.Component {
         // Display colon in between minutes and seconds
         return minutes + ':' + seconds; 
     }
-    // Reset timer
+    // Reset timer back to default values, clear interval
     resetTimer(){
         this.setState({
             breakLength: 5,
@@ -128,7 +186,11 @@ class Timer extends React.Component {
             timerState: 'inactive',
             timerType: 'Session'
         });
-        clearInterval(this.state.intervalID);
+        if(this.state.intervalID){
+            this.state.intervalID.stop();
+        }
+        this.audioBeep.pause();
+        this.audioBeep.currentTime = 0;
     }
     render(){
         return (
@@ -160,19 +222,26 @@ class Timer extends React.Component {
                         <button id="reset"
                         onClick={this.resetTimer}
                         >
-                            <i class="fa-solid fa-arrow-rotate-right"></i>
+                            <i className="fa-solid fa-arrow-rotate-right"></i>
                         </button>
                     </div>
                 </div>
+                {/* Start Stop Controls */}
                 <div className="timer-control">
                     <button id="start_stop"
-                    // Add onClick that starts and stops timer
+                    onClick={this.timerControl}
                     >
                         <i className="fa-solid fa-play"></i>
                         <i className="fa-solid fa-pause"></i>
                     </button>
                 </div>
-                <audio id="beep" src="public\mixkit-racing-countdown-timer-1051.wav"/>
+                {/* Audio clip, load on page load */}
+                <audio id="beep" 
+                preload="auto"
+                ref={(audio) => {
+                    this.audioBeep = audio;
+                }}
+                src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"/>
             </div>
         );
     }
