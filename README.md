@@ -1,8 +1,10 @@
-# 25 + 5 Clock ⏲️
+# Pomodoro Timer 🍅
 
 ## Description
 
-A clock initialized with a 25-minute timer and a 5-minute break, built with React. Session and break lengths can be adjusted by the user.  
+A Pomodoro timer initialized with a 25-minute timer and a 5-minute break, built with React. Session and break lengths can be modified and an alarm sound will play at when the timer(s) end. 
+
+A Pomodoro timer keeps you focused and productive by scheduling work and break sessions consecutively.
 
 A FreeCodeCamp Front End Development Libraries project, with the objective to fulfill the user stories and get all of the tests to pass.
 

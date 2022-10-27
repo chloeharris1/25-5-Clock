@@ -2,18 +2,20 @@ import React from "react";
 
 import Controls from "./Controls";
 
-// Created a function to account for timer drifting for a more accurate timer
+// Function to get an accurate interval 
 const accurateInterval = function (func, time) {
     let stop, expected, timeout, callback; 
 
     expected = Date.now() + time;
-    timeout = null; 
+    timeout = 0; 
     callback = function () {
         expected += time; 
+        // Setting a timeout equal to the timeout variable, which will be used to stop the timer
         timeout = setTimeout(callback, expected - Date.now());
-        console.log(expected - Date.now())
+        // console.log(expected - Date.now())
         return func();
     };
+    // Stop variable is equal to a function that clears the timeout, passing in the timeout variable from the callback function above 
     stop = function () {
         return clearTimeout(timeout);
     };
@@ -102,15 +104,17 @@ class Timer extends React.Component {
         }
     }
     
-    // Timer state control - stopped, active 
+    // Timer state control - active, inactive 
     timerControl(){
-        if(this.state.timerState === 'stopped'){
+        if(this.state.timerState === 'inactive'){
             this.startTimer();
             this.setState({ timerState: 'active'});
+            console.log('Started!');
         } else {
-            this.setState({timerState: 'stopped'});
+            this.setState({timerState: 'inactive'});
             if(this.state.intervalID) {
                 this.state.intervalID.stop();
+                console.log('Stopped!');
             }
         }
     }
@@ -136,6 +140,7 @@ class Timer extends React.Component {
     typeControl(){
         let timer = this.state.timer;
         this.playAudio(timer);
+        // When the timer reaches 0, clear the interval ID 
         if(timer < 0){
             if(this.state.intervalID){
                 this.state.intervalID.stop();
@@ -151,9 +156,10 @@ class Timer extends React.Component {
     }
 
     // Play audio when timer ends
-    playAudio(_timer){
-        if(_timer === 0){
+    playAudio(timer){
+        if(timer === 0){
             this.audioBeep.play();
+            console.log('Time is up!');
         }
     }
 
@@ -167,7 +173,7 @@ class Timer extends React.Component {
 
     // Display time in mm:ss format 
     displayTime(){
-        if(this.state.timer < '0') return "00:00";
+        if(this.state.timer < 0) return "00:00";
         let minutes = Math.floor(this.state.timer / 60);
         let seconds = this.state.timer - minutes * 60;
         // If there's under 10 seconds or minutes left, add '0' to keep time format mm:ss
