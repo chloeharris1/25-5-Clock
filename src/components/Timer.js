@@ -2,7 +2,7 @@ import React from "react";
 
 import Controls from "./Controls";
 
-// Function to get an accurate interval 
+// Function to get an accurate interval, avoid drifting over time
 const accurateInterval = function (func, time) {
     let stop, expected, timeout, callback; 
 
