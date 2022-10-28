@@ -14,7 +14,7 @@ body {
     text-align: center;
     font-size: 2rem;
     font-family: 'Noto Sans JP', sans-serif;
-    background: #040909;
+    background: #0A0A0A;
     color: #91d2c9;
     .container {
         height: 100vh;
@@ -49,7 +49,7 @@ body {
     margin: 20px auto 10px auto;
     #timer-label {
         font-weight: 500;
-        color: #d8ffff;
+        color: #ccfbf3;
     }
     #time-left {
         font-size: 80px;
@@ -65,17 +65,13 @@ button {
     font-size: 2rem;
     i {
         margin: 5px;
-        color: #d8ffff;
+        color: #ccfbf3;
+        background: transparent;
+    }
+    i:hover {
+        color: #26655c;
     }
     .fa-pause {
         margin-left: 15px;
     }
 }
-
-// .fa-arrow-rotate-right,
-// .fa-play,
-// .fa-angle-up,
-// .fa-angle-down .fa-pause:hover {
-//     color: #d8ffff;
-//     opacity: .4;
-// }

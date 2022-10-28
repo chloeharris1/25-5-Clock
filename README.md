@@ -1,10 +1,10 @@
-# Pomodoro Timer 🍅
+# Pomodoro Timer ⏱️
 
 ## Description
 
-A Pomodoro timer initialized with a 25-minute timer and a 5-minute break, built with React. Session and break lengths can be modified and an alarm sound will play at when the timer(s) end. 
-
 A Pomodoro timer keeps you focused and productive by scheduling work and break sessions consecutively.
+
+The clock is initialized with a 25-minute timer and a 5-minute break. Session and break lengths can be modified and an alarm sound will play at when the timer(s) end. 
 
 A FreeCodeCamp Front End Development Libraries project, with the objective to fulfill the user stories and get all of the tests to pass.
 
@@ -15,6 +15,7 @@ A FreeCodeCamp Front End Development Libraries project, with the objective to fu
 
 ## Snapshot
 
+![image](./public/Screenshot.png)
 
 ## Link
 
@@ -82,10 +83,6 @@ User Story #28: The audio element with id of beep must stop playing and be rewou
 
 Favicon: 
 [CreativeCons](https://www.flaticon.com/free-icons/alarm)
-
-Sound Effect:
-[mixkit](https://mixkit.co/free-sound-effects/clock/)
-
 
 ## License
 Licensed under the MIT license.
